@@ -16,4 +16,4 @@ ClipBoard records everything copied to the system clipboard and aims to intellig
 
 ### Known issues? maybe keep to issues tab
 
-### Licenses
+### Licenses        
