@@ -9,6 +9,9 @@ ClipBoard records everything copied to the system clipboard and aims to intellig
 ![some kind of image or visual]()
 
 ### Instructions to download for users
+Dependencies:
+- pyperclip
+- python
 
 ### Instructions to potentional collaborators
 
