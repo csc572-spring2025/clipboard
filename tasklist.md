@@ -1,4 +1,4 @@
-# Project Task List
+# Clipboard Project Task List
 
 Depends on desired type of artifact (could be either a chrome extension or an local app)
 
@@ -12,6 +12,7 @@ Depends on desired type of artifact (could be either a chrome extension or an lo
 
 ### Categorization Logic
 - Figure out ways of categorizing copy-pastes
+
 Split into:
 - URLs
 - Code (brackets, semicolons, indentation)
