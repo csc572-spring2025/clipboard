@@ -1,0 +1,188 @@
+
+
+[2025-05-16 07:16:17]
+--------------------------------------------------
+11_14_24_664Z-debug-0.log
+--------------------------------------------------
+
+
+[2025-05-16 07:16:20]
+--------------------------------------------------
+he Clipboard Monitor App!
+--------------------------------------------------
+
+
+[2025-05-16 07:16:23]
+--------------------------------------------------
+Clipboard
+--------------------------------------------------
+
+
+[2025-05-16 07:16:29]
+--------------------------------------------------
+w ECMAScript standards can be used without problems, as you don't have to wait for all your users to update their browsers - you are in charge of deciding which ECMAScript version to use by changing the Node.js version, and you can also enable specific experimental features by running Node.js with flags.
+--------------------------------------------------
+
+
+[2025-05-16 07:16:31]
+--------------------------------------------------
+he server-side code in addition to the client-side code without the need to learn a completely different language.
+--------------------------------------------------
+
+
+[2025-05-16 07:16:32]
+--------------------------------------------------
+usands of concurrent connections with a single server without introducing the burden of managing thread concurrency
+--------------------------------------------------
+
+
+[2025-05-16 07:16:35]
+--------------------------------------------------
+ocking the thread and wasting CPU cycles waiting, Node.js will resume the operations when the response comes back.
+--------------------------------------------------
+
+
+[2025-05-16 07:16:36]
+--------------------------------------------------
+nous I/O primitives in its stan
+--------------------------------------------------
+
+
+[2025-05-16 07:25:17]
+--------------------------------------------------
+my teacher wants me to add a once-per-second console.log for testing because there is an issue where if you do to a tab that isn't the clipboard app, the copy-paste doesn't work except for the last copy-paste. I don't need you to fix the problem, i just need to you add some console.logs so that the problem may be debugged, and let me know how the debugging would work
+--------------------------------------------------
+
+
+[2025-05-16 07:29:30]
+--------------------------------------------------
+lipboard app, the copy-paste doesn't work except for the last copy-paste. I don't need you to fix the problem, i just need to you add
+--------------------------------------------------
+
+
+[2025-05-16 07:30:13]
+--------------------------------------------------
+Debug] Clipboard access error: NotAllowedError: Failed to execute 'readText' on 'Clipboard': Document is not focused.
+--------------------------------------------------
+
+
+[2025-05-16 07:30:18]
+--------------------------------------------------
+[Debug] Clipboard access error: NotAllowedError: Failed to execute 'readText' on 'Clipboard': Document is not focused.
+    at ClipboardMonitor.js:19:1
+--------------------------------------------------
+
+
+[2025-05-16 07:31:14]
+--------------------------------------------------
+d Monitor App!
+--------------------------------------------------
+
+
+[2025-05-16 07:31:16]
+--------------------------------------------------
+ the Clipboard Monitor App!
+Clipboard
+--------------------------------------------------
+
+
+[2025-05-16 07:31:18]
+--------------------------------------------------
+otAllowedError: Failed to execute 'readText' on 'Clipboard': Document is not focused. at ClipboardMonitor.js:19:1
+--------------------------------------------------
+
+
+[2025-05-16 07:39:51]
+--------------------------------------------------
+o execute 'readText' on 'Clipboard': Document is not focused. at ClipboardMonitor.js:19:1
+--------------------------------------------------
+
+
+[2025-05-16 07:39:55]
+--------------------------------------------------
+ Document
+--------------------------------------------------
+
+
+[2025-05-16 07:40:10]
+--------------------------------------------------
+focused
+--------------------------------------------------
+
+
+[2025-05-16 07:43:59]
+--------------------------------------------------
+js_presentation
+--------------------------------------------------
+
+
+[2025-05-16 07:45:21]
+--------------------------------------------------
+
+--------------------------------------------------
+
+
+[2025-05-16 07:53:35]
+--------------------------------------------------
+Frontend: UI, sends requests to Backend
+Request: i.e. when user clicks button
+Backend: handles requests, communicates with database, APIs
+Database: holds tons of data
+
+Maybe talk about server-side rendering vs. client-side rendering
+
+--------------------------------------------------
+
+
+[2025-05-16 07:54:33]
+--------------------------------------------------
+Client-Side Rendering (CSR):
+
+Loads a blank page with JavaScript
+
+JavaScript builds the UI in the browser
+
+Faster interactions after load, but slower first load
+
+Used by default in React.js
+
+Server-Side Rendering (SSR):
+
+Page is rendered on the server
+
+Full HTML is sent to browser
+
+Faster first load, better SEO
+
+Used by Next.js
+
+Visual:
+
+Split screen:
+
+Left side: CSR (browser downloads JS → builds UI)
+
+Right side: SSR (server sends full HTML → browser displays instantly)
+--------------------------------------------------
+
+
+[2025-05-16 07:56:55]
+--------------------------------------------------
+Interprets or executes your code
+
+Provides access to system resources (memory, files, networking, etc.)
+
+Manages program execution (e.g., how long it runs, what errors occur, etc.)
+--------------------------------------------------
+
+
+[2025-05-16 07:57:17]
+--------------------------------------------------
+Node.js runs the V8 JavaScript engine, the core of Google Chrome, outside of the browser. This allows Node.js to be very performant.
+--------------------------------------------------
+
+
+[2025-05-16 07:57:52]
+--------------------------------------------------
+Node.js has a unique advantage because millions of frontend developers that write JavaScript for the browser are now able to write the server-side code in addition to the client-side code without the need to learn a completely different language.
+--------------------------------------------------

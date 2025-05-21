@@ -1,0 +1,269 @@
+
+
+[2025-05-09 13:51:26]
+--------------------------------------------------
+  current_content = pyperclip.paste()
+            
+            # check if content has changed and is not a duplicate
+            if current_content != previous_content and current_content not in seen_entries:
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                
+                # log to console
+                print(f"\n[{timestamp}] New clipboard content:")
+                print("-" * 50)
+                print(current_content)
+--------------------------------------------------
+
+
+[2025-05-09 13:52:19]
+--------------------------------------------------
+import pyperclip
+import time
+import datetime
+import os
+
+# monitor clipboard for changes and log them with timestamps
+def monitor_clipboard():
+    print("Clipboard monitoring started. Press Ctrl+C to stop.")
+    print("-" * 50)
+    
+    # create a logs directory if it doesn't exist
+    if not os.path.exists("clipboard_logs"):
+        os.makedirs("clipboard_logs")
+    
+    # initialize with current clipboard content
+    previous_content = pyperclip.paste()
+    log_file_path = os.path.join("clipboard_logs", f"clipboard_log_{datetime.datetime.now().strftime('%Y%m%d')}.txt")
+    
+    # track unique entries to avoid duplicates
+    seen_entries = {previous_content}
+    
+    try:
+        while True:
+            # get current clipboard content
+            current_content = pyperclip.paste()
+            
+            # check if content has changed and is not a duplicate
+            if current_content != previous_content and current_content not in seen_entries:
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                
+                # log to console
+                print(f"\n[{timestamp}] New clipboard content:")
+                print("-" * 50)
+                print(current_content)
+                print("-" * 50)
+                
+                # log to file
+                with open(log_file_path, "a", encoding="utf-8") as f:
+                    f.write(f"\n\n[{timestamp}]\n")
+                    f.write("-" * 50 + "\n")
+                    f.write(current_content + "\n")
+                    f.write("-" * 50 + "\n")
+                
+                # update previous content and add to seen entries
+                previous_content = current_content
+                seen_entries.add(current_content)
+            
+            time.sleep(0.5)
+            
+    except KeyboardInterrupt:
+        print("\nClipboard monitoring stopped.")
+
+
+monitor_clipboard()
+--------------------------------------------------
+
+
+[2025-05-09 13:57:05]
+--------------------------------------------------
+// ClipboardMonitor.js
+import { useEffect, useState } from "react";
+
+export default function ClipboardMonitor() {
+  const [entries, setEntries] = useState([]);
+  const [lastContent, setLastContent] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+
+        if (text && text !== lastContent && !entries.some(e => e.content === text)) {
+          const timestamp = new Date().toLocaleTimeString();
+          const type = classifyContent(text);
+
+          setEntries(prev => [{ content: text, timestamp, type }, ...prev]);
+          setLastContent(text);
+        }
+      } catch (err) {
+        console.warn("Clipboard access error:", err);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastContent, entries]);
+
+  const classifyContent = (text) => {
+    if (/^def\s+\w+\(.*\):/.test(text)) return "Code";
+    if (/=\s*mc\^2/.test(text)) return "LaTeX";
+    if (/["“].*["”]/.test(text)) return "Quotes";
+    return "Plaintext";
+  };
+
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Clipboard</h1>
+      {entries.map((entry, idx) => (
+        <div key={idx} className="bg-gray-800 text-white p-3 rounded mb-2">
+          <div className="text-sm opacity-60">{entry.type} — {entry.timestamp}</div>
+          <div className="my-2 break-all">{entry.content}</div>
+          <button
+            onClick={() => navigator.clipboard.writeText(entry.content)}
+            className="text-sm text-blue-400 hover:underline"
+          >
+            Copy
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+--------------------------------------------------
+
+
+[2025-05-09 13:57:18]
+--------------------------------------------------
+can you add comments so i can understand: // ClipboardMonitor.js
+import { useEffect, useState } from "react";
+
+export default function ClipboardMonitor() {
+  const [entries, setEntries] = useState([]);
+  const [lastContent, setLastContent] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+
+        if (text && text !== lastContent && !entries.some(e => e.content === text)) {
+          const timestamp = new Date().toLocaleTimeString();
+          const type = classifyContent(text);
+
+          setEntries(prev => [{ content: text, timestamp, type }, ...prev]);
+          setLastContent(text);
+        }
+      } catch (err) {
+        console.warn("Clipboard access error:", err);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastContent, entries]);
+
+  const classifyContent = (text) => {
+    if (/^def\s+\w+\(.*\):/.test(text)) return "Code";
+    if (/=\s*mc\^2/.test(text)) return "LaTeX";
+    if (/["“].*["”]/.test(text)) return "Quotes";
+    return "Plaintext";
+  };
+
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Clipboard</h1>
+      {entries.map((entry, idx) => (
+        <div key={idx} className="bg-gray-800 text-white p-3 rounded mb-2">
+          <div className="text-sm opacity-60">{entry.type} — {entry.timestamp}</div>
+          <div className="my-2 break-all">{entry.content}</div>
+          <button
+            onClick={() => navigator.clipboard.writeText(entry.content)}
+            className="text-sm text-blue-400 hover:underline"
+          >
+            Copy
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+--------------------------------------------------
+
+
+[2025-05-09 13:58:07]
+--------------------------------------------------
+// ClipboardMonitor.js
+import { useEffect, useState } from "react";
+
+// The ClipboardMonitor component that monitors clipboard changes
+export default function ClipboardMonitor() {
+  // State to store the list of clipboard entries (text copied)
+  const [entries, setEntries] = useState([]);
+  // State to store the last copied content to avoid duplicates
+  const [lastContent, setLastContent] = useState("");
+
+  useEffect(() => {
+    // Set up an interval to check clipboard content every second
+    const interval = setInterval(async () => {
+      try {
+        // Read the current text content from the clipboard
+        const text = await navigator.clipboard.readText();
+
+        // Check if the clipboard content is different from the last one,
+        // and if it's not already in the entries list
+        if (text && text !== lastContent && !entries.some(e => e.content === text)) {
+          // Get the current timestamp of the content being copied
+          const timestamp = new Date().toLocaleTimeString();
+          // Classify the content based on its structure (Code, LaTeX, Quotes, or Plaintext)
+          const type = classifyContent(text);
+
+          // Add the new content to the entries list, updating the state
+          setEntries(prev => [{ content: text, timestamp, type }, ...prev]);
+          // Update the lastContent to the current copied text
+          setLastContent(text);
+        }
+      } catch (err) {
+        // Handle any error while accessing the clipboard
+        console.warn("Clipboard access error:", err);
+      }
+    }, 1000); // Run this function every 1000ms (1 second)
+
+    // Cleanup function to clear the interval when the component unmounts or dependencies change
+    return () => clearInterval(interval);
+  }, [lastContent, entries]); // Dependencies array to trigger the effect when lastContent or entries change
+
+  // Function to classify the clipboard content type based on regex patterns
+  const classifyContent = (text) => {
+    // If the text matches a Python function definition (e.g., "def functionName():")
+    if (/^def\s+\w+\(.*\):/.test(text)) return "Code";
+    // If the text contains "mc^2" (a LaTeX-like string)
+    if (/=\s*mc\^2/.test(text)) return "LaTeX";
+    // If the text contains quotes (either straight or curly quotes)
+    if (/["“].*["”]/.test(text)) return "Quotes";
+    // Default type is Plaintext if none of the above conditions match
+    return "Plaintext";
+  };
+
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Clipboard</h1>
+      {/* Render the clipboard entries list */}
+      {entries.map((entry, idx) => (
+        <div key={idx} className="bg-gray-800 text-white p-3 rounded mb-2">
+          {/* Display the type and timestamp of the copied content */}
+          <div className="text-sm opacity-60">{entry.type} — {entry.timestamp}</div>
+          {/* Display the actual content */}
+          <div className="my-2 break-all">{entry.content}</div>
+          {/* Button to copy the entry back to the clipboard */}
+          <button
+            onClick={() => navigator.clipboard.writeText(entry.content)}
+            className="text-sm text-blue-400 hover:underline"
+          >
+            Copy
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+--------------------------------------------------

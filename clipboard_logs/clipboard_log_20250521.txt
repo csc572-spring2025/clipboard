@@ -1,0 +1,8 @@
+
+
+[2025-05-21 12:41:41]
+--------------------------------------------------
+
+    # initialize with current clipboard content
+    previous_content = pyperclip.paste()
+--------------------------------------------------
