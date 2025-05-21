@@ -14,10 +14,12 @@ Dependencies:
 - PyQt5
 
 Install dependencies with:
-```pip install pyperclip PyQt5 ```
+
+### ```pip install pyperclip PyQt5 ```
 
 Open application using
-```python backgroundapp.py```
+
+### ```python backgroundapp.py```
 
 ### Instructions to potentional collaborators
 
