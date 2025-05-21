@@ -16,6 +16,9 @@ Dependencies:
 Install dependencies with:
 ```pip install pyperclip PyQt5 ```
 
+Open application using
+```python backgroundapp.py```
+
 ### Instructions to potentional collaborators
 
 ### Expectations for contributions (maybe can merge with above)
