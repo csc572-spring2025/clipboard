@@ -1,3 +1,13 @@
+'''
+Implements the user interface for the clipboard app using PyQT
+Features:
+- Scrollable display
+- Filter on the sidebar for different content types
+- Search bar that lets you search the content of each clipboard item
+- Storing clipboard history
+- Option to clear clipboard history
+'''
+
 import sys
 import os
 import json
@@ -12,9 +22,11 @@ from PyQt5.QtGui import QIcon, QFont
 import pyperclip
 import datetime
 
+# 
 class ClipboardSignals(QObject):
     new_clipboard_content = pyqtSignal(dict)
 
+# main window for the entire application
 class ClipboardManager(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -23,8 +35,8 @@ class ClipboardManager(QMainWindow):
         self.setStyleSheet("background-color: #1e1e1e; color: white;")
         
         self.clipboard_items = []
-        self.data_file = "clipboard_data.json"
-        self.load_clipboard_data()
+        self.data_file = "clipboard_data.json" # path to save clipboard data
+        self.load_clipboard_data() # load history
         
         self.signals = ClipboardSignals()
         self.signals.new_clipboard_content.connect(self.add_clipboard_item)
@@ -34,7 +46,7 @@ class ClipboardManager(QMainWindow):
         self.setCentralWidget(main_widget)
         main_layout = QHBoxLayout(main_widget)
         
-        # sidebar
+        # sidebar for filters
         sidebar = QWidget()
         sidebar.setMaximumWidth(270)
         sidebar_layout = QVBoxLayout(sidebar)
@@ -42,7 +54,7 @@ class ClipboardManager(QMainWindow):
         title_label.setFont(QFont("Arial", 24, QFont.Bold))
         sidebar_layout.addWidget(title_label)
         
-        # buttons
+        # create buttons on the sidebar
         self.all_btn = self.create_sidebar_button("All", "≡")
         self.code_btn = self.create_sidebar_button("Code", "⌨")
         self.latex_btn = self.create_sidebar_button("LaTeX", "𝐄")
@@ -56,30 +68,34 @@ class ClipboardManager(QMainWindow):
         self.quotes_btn.setCursor(Qt.PointingHandCursor)
         self.plaintext_btn.setCursor(Qt.PointingHandCursor)
         
-        # filter buttons
+        # activate filter buttons
         self.all_btn.clicked.connect(lambda: self.filter_items("All"))
         self.code_btn.clicked.connect(lambda: self.filter_items("Code"))
         self.latex_btn.clicked.connect(lambda: self.filter_items("LaTeX"))
         self.quotes_btn.clicked.connect(lambda: self.filter_items("Quotes"))
         self.plaintext_btn.clicked.connect(lambda: self.filter_items("Plaintext"))
         
+        # add buttons to the sidebar
         sidebar_layout.addWidget(self.all_btn)
         sidebar_layout.addWidget(self.code_btn)
         sidebar_layout.addWidget(self.latex_btn)
         sidebar_layout.addWidget(self.quotes_btn)
         sidebar_layout.addWidget(self.plaintext_btn)
         
-        length_label = QLabel("Length")
-        sidebar_layout.addWidget(length_label)
+        # create a QLabel (non-interactive components that can display text and/or an image) and a placeholder for the slider
+        # length_label = QLabel("Length") # length currently does nothing
+        # sidebar_layout.addWidget(length_label)
         slider_frame = QFrame()
         slider_frame.setFrameShape(QFrame.StyledPanel)
         slider_frame.setMinimumHeight(30)
         sidebar_layout.addWidget(slider_frame)
         sidebar_layout.addStretch()
+
+        # create content area for search bar and clipboard items
         content_area = QWidget()
         content_layout = QVBoxLayout(content_area)
         
-        # search bar
+        # create search layout: search bar + settings
         search_layout = QHBoxLayout()
         self.search_bar = QLineEdit()
         self.search_bar.setPlaceholderText("Search")
@@ -94,12 +110,13 @@ class ClipboardManager(QMainWindow):
         self.search_bar.textChanged.connect(self.search_items)
         search_layout.addWidget(self.search_bar)
         
-        # settings 
+        # settings button (currently does nothing)
         settings_btn = QPushButton("⚙")
         settings_btn.setFixedSize(40, 40)
         settings_btn.setStyleSheet("background-color: transparent; font-size: 20px;")
         search_layout.addWidget(settings_btn)
         
+        # add search layout into the main layout of the app
         content_layout.addLayout(search_layout)
         
         # clipboard items area
@@ -131,6 +148,7 @@ class ClipboardManager(QMainWindow):
         scroll_area.setWidget(self.items_widget)
         content_layout.addWidget(scroll_area)
         
+        # add sidebar and content area to the main layout
         main_layout.addWidget(sidebar)
         main_layout.addWidget(content_area)
         
@@ -143,7 +161,9 @@ class ClipboardManager(QMainWindow):
         self.monitor_thread.daemon = True
         self.monitor_thread.start()
     
-    def create_sidebar_button(self, text, icon_text):
+    # returns a button that is ready to be added to the sidebar
+    # params: text (the label for the button)
+    def create_sidebar_button(self, text, icon_img):
         btn = QPushButton(f" {text}")
         btn.setIcon(QIcon())  
         btn.setIconSize(QSize(24, 24))
@@ -154,6 +174,7 @@ class ClipboardManager(QMainWindow):
                 font-size: 16px;
                 background-color: transparent;
                 border: none;
+                border-radius: 6px;
             }
             QPushButton:hover {
                 background-color: #333;
@@ -161,6 +182,8 @@ class ClipboardManager(QMainWindow):
         """)
         return btn
     
+    # returns a QFrame that represents a clipboard item, with properly formatted information
+    # params: item (a dictionary with keys: type of content, content itself, time (formatted), time (nonformatted, in ISO), character length)
     def create_clipboard_item(self, item):
         frame = QFrame()
         frame.setFrameShape(QFrame.StyledPanel)
@@ -169,7 +192,7 @@ class ClipboardManager(QMainWindow):
                 background-color: #2d2d2d;
                 border-radius: 8px;
                 margin: 5px 0;
-                padding: 10px;
+                padding: 5px;
             }
         """)
         
@@ -178,7 +201,7 @@ class ClipboardManager(QMainWindow):
         # content and copy button
         top_layout = QHBoxLayout()
         
-        # icon based on type
+        # assign icon based on type
         icon_label = QLabel()
         if item["type"] == "Code":
             icon_label.setText("⌨")
@@ -192,18 +215,26 @@ class ClipboardManager(QMainWindow):
         icon_label.setStyleSheet("font-size: 32px; color: #888;")
         top_layout.addWidget(icon_label)
         
+        # style content of the item
         content_label = QLabel(item["content"])
         content_label.setStyleSheet("font-size: 16px;")
         content_label.setWordWrap(True)
         top_layout.addWidget(content_label, 1)
         
+        # create and style the "Copy" button
         copy_btn = QPushButton("Copy")
         copy_btn.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 color: white;
                 border: none;
+                border-radius: 6px;
                 font-size: 16px;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFF;
+                color: #333;
             }
         """)
 
@@ -213,7 +244,7 @@ class ClipboardManager(QMainWindow):
         
         layout.addLayout(top_layout)
         
-        # type and time info
+        # layout type, time, and char length info
         info_layout = QHBoxLayout()
         type_label = QLabel(item["type"])
         type_label.setStyleSheet("color: #888;")
@@ -224,25 +255,25 @@ class ClipboardManager(QMainWindow):
         
         info_layout.addWidget(type_label)
         info_layout.addWidget(time_label)
-        info_layout.addStretch()
         info_layout.addWidget(chars_label)
-        
+        info_layout.addStretch()
         layout.addLayout(info_layout)
         
         return frame
     
+    # initializes the system tray icon and its menu
     def setup_system_tray(self):
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QIcon.fromTheme("edit-copy"))  
         
-        tray_menu = QMenu()
-        
+        tray_menu = QMenu() # create a context menu (menus opened by right-click)
+        # add a show option
         show_action = QAction("Show", self)
         show_action.triggered.connect(self.show)
-        
+        # add a hide option
         hide_action = QAction("Hide", self)
         hide_action.triggered.connect(self.hide)
-        
+        # add a quit option
         quit_action = QAction("Quit", self)
         quit_action.triggered.connect(self.quit_application)
         
@@ -251,12 +282,14 @@ class ClipboardManager(QMainWindow):
         tray_menu.addSeparator()
         tray_menu.addAction(quit_action)
         
-
-        self.tray_icon.setContextMenu(tray_menu)
+        self.tray_icon.setContextMenu(tray_menu)    # attach content menu to tray icon
         self.tray_icon.show()
         self.tray_icon.activated.connect(self.tray_icon_activated)
     
+    # triggers when the tray icon is interacted with: responds to right-click
+    # params: reason (the event that the tray icon is responding to)
     def tray_icon_activated(self, reason):
+        # if right-clicked and menu is shown, hide it; else, show the menu
         if reason == QSystemTrayIcon.DoubleClick:
             if self.isVisible():
                 self.hide()
@@ -264,16 +297,20 @@ class ClipboardManager(QMainWindow):
                 self.show()
                 self.activateWindow()
     
+    # overrides default close behavior to hide the window instead of quitting
+    # params: event (QCloseEvent, or the event triggered when the window is closed)
     def closeEvent(self, event):
         event.ignore()
         self.hide()
     
+    # dictates behavior when the app is quitted
     def quit_application(self):
         # save data before quitting
         self.save_clipboard_data()
-        self.monitoring_active = False
+        self.monitoring_active = False # stop monitoring background thread
         QApplication.quit()
     
+    # checks the clipboard for new content copied
     def monitor_clipboard(self):
         if not os.path.exists("clipboard_logs"):
             os.makedirs("clipboard_logs")
@@ -313,6 +350,9 @@ class ClipboardManager(QMainWindow):
                 print(f"Error in clipboard monitoring: {e}")
                 time.sleep(1)
     
+    # categorization logic
+    # returns category label
+    # params: content (raw text copied to the clipboard)
     def categorize_content(self, content):
         # super simple categorization that doesn't really work but can be updated
         content = content.strip()
@@ -336,12 +376,15 @@ class ClipboardManager(QMainWindow):
         # Default to plaintext
         return "Plaintext"
     
+    # add new clipboard item to the top of the UI list
+    # params: item (clipboard item to be added)
     def add_clipboard_item(self, item):
         self.clipboard_items.insert(0, item)
         self.save_clipboard_data()
         item_widget = self.create_clipboard_item(item)
         self.items_layout.insertWidget(0, item_widget)
     
+    # renders all clipboard items in memory to the UI
     def display_clipboard_items(self):
         while self.items_layout.count() > 1: 
             item = self.items_layout.takeAt(0)
@@ -351,6 +394,8 @@ class ClipboardManager(QMainWindow):
             item_widget = self.create_clipboard_item(item)
             self.items_layout.insertWidget(0, item_widget)
     
+    # filters items based on type
+    # params: filter_type (the type to filter by)
     def filter_items(self, filter_type):
         while self.items_layout.count() > 1: 
             item = self.items_layout.takeAt(0)
@@ -361,18 +406,22 @@ class ClipboardManager(QMainWindow):
                 item_widget = self.create_clipboard_item(item)
                 self.items_layout.insertWidget(0, item_widget)
     
+    # filters items based on text entered in search bar
     def search_items(self):
-        search_text = self.search_bar.text().lower()
+        search_text = self.search_bar.text().lower() # changes search entry to lowercase so it's case-insensitive
         
         while self.items_layout.count() > 1: 
             item = self.items_layout.takeAt(0)
             if item.widget():
                 item.widget().deleteLater()
-        for item in self.clipboard_items:
+
+        # for each clipboard item, if the search entry matches a substring in the item content
+        for item in self.clipboard_items: 
             if search_text in item["content"].lower():
                 item_widget = self.create_clipboard_item(item)
                 self.items_layout.insertWidget(0, item_widget)
     
+    # loads clipboard history from JSON file and adds it to self.clipboard_items
     def load_clipboard_data(self):
         try:
             if os.path.exists(self.data_file):
@@ -384,6 +433,7 @@ class ClipboardManager(QMainWindow):
             print(f"Error loading clipboard data: {e}")
             self.clipboard_items = []
     
+    # saves self.clipboard_items to a JSON file
     def save_clipboard_data(self):
         try:
             with open(self.data_file, 'w', encoding='utf-8') as f:
