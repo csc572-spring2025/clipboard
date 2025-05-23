@@ -1,5 +1,166 @@
 [
   {
+    "type": "Plaintext",
+    "content": "working-directory: bot",
+    "time": "10:59 AM",
+    "timestamp": "2025-05-20T10:59:46.234038",
+    "chars": "22 characters"
+  },
+  {
+    "type": "Code",
+    "content": "name: Django CI\n\non:\n  push:\n    branches: [ \"main\" ]\n  pull_request:\n    branches: [ \"main\" ]\n\njobs:\n  build:\n\n    runs-on: ubuntu-latest\n    strategy:\n      max-parallel: 4\n      matrix:\n        python-version: [3.8, 3.9]\n\n    steps:\n    - uses: actions/checkout@v4\n\n    - name: Set up Python ${{ matrix.python-version }}\n      uses: actions/setup-python@v3\n      with:\n        python-version: ${{ matrix.python-version }}\n\n    - name: Install Dependencies\n      run: |\n        python -m pip install --upgrade pip\n        pip install -r requirements.txt\n\n    - name: Run Tests\n      run: python manage.py test\n      working-directory: bot  # ✅ this tells it where manage.py actually is\n",
+    "time": "10:59 AM",
+    "timestamp": "2025-05-20T10:59:14.522249",
+    "chars": "688 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "https://github.com/tianyi-gu/archivebot",
+    "time": "10:57 AM",
+    "timestamp": "2025-05-20T10:57:08.464581",
+    "chars": "39 characters"
+  },
+  {
+    "type": "Code",
+    "content": "name: Django CI\n\non:\n  push:\n    branches: [ \"main\" ]\n  pull_request:\n    branches: [ \"main\" ]\n\njobs:\n  build:\n\n    runs-on: ubuntu-latest\n    strategy:\n      max-parallel: 4\n      matrix:\n        python-version: [3.8, 3.9]\n\n    steps:\n    - uses: actions/checkout@v4\n    - name: Set up Python ${{ matrix.python-version }}\n      uses: actions/setup-python@v3\n      with:\n        python-version: ${{ matrix.python-version }}\n    - name: Install Dependencies\n      run: |\n        python -m pip install --upgrade pip\n        pip install -r requirements.txt\n    - name: Run Tests\n      run: |\n        python manage.py test",
+    "time": "10:56 AM",
+    "timestamp": "2025-05-20T10:56:55.665281",
+    "chars": "618 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "Now, we become memories. Just as we had come, we depart. Stronger, but softer too, and assuredly all the more wise. Onwards, we go.",
+    "time": "10:40 AM",
+    "timestamp": "2025-05-20T10:40:33.996162",
+    "chars": "131 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": " As we bid farewell, I know it will be bittersweet and tear-jerking. I know that each goodbye will feel like I’m ripping out my heart. But I know too that we will breathe in the joy and triumph of having lived the hell out of it. There is no fresher air in the world. ",
+    "time": "10:39 AM",
+    "timestamp": "2025-05-20T10:39:21.723514",
+    "chars": "268 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "https://www.youtube.com/watch?v=GzC4UOFXMk8",
+    "time": "10:32 AM",
+    "timestamp": "2025-05-20T10:32:21.569904",
+    "chars": "43 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "lesson: ",
+    "time": "09:35 AM",
+    "timestamp": "2025-05-20T09:35:56.112547",
+    "chars": "8 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "The ending is neither a letdown nor an explosion if we embrace the countdown.\n",
+    "time": "09:30 AM",
+    "timestamp": "2025-05-20T09:30:57.747232",
+    "chars": "78 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "443 399",
+    "time": "07:38 AM",
+    "timestamp": "2025-05-20T07:38:39.004169",
+    "chars": "7 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "635 917",
+    "time": "07:37 AM",
+    "timestamp": "2025-05-20T07:37:59.224780",
+    "chars": "7 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "635 91",
+    "time": "07:37 AM",
+    "timestamp": "2025-05-20T07:37:52.657358",
+    "chars": "6 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "\n \nSquarespace\t\nAccount Information\nVerification Code\nPlease use the following verification code to log in to Squarespace:\n635 917",
+    "time": "07:37 AM",
+    "timestamp": "2025-05-20T07:37:50.637566",
+    "chars": "130 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "ClipBoard records everything copied to the system clipboard and aims to intelligently organize it into categories like code snippets, quotes, math equations, URLs, or plain text. Users can search past entries via tags, date, or keywords, making it easy to find what they copied days or weeks ago.\n",
+    "time": "02:34 PM",
+    "timestamp": "2025-05-19T14:34:49.444075",
+    "chars": "297 characters"
+  },
+  {
+    "type": "Code",
+    "content": "Implemented search functionality to find items by content",
+    "time": "02:25 PM",
+    "timestamp": "2025-05-19T14:25:24.845383",
+    "chars": "57 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "Q: What do you copy-paste the most?\nA: Logistics—Zoom links, announcements, event details. I’m always bouncing between Google Docs, Canvas, and my inbox.\n\nQ: Would ClipBoard be useful for that kind of work?\nA: Yeah, especially if I could search by date. Like, “what was that link I sent in our club email last Wednesday?”\n\nQ: Would you be concerned about it recording everything, including sensitive stuff?\nA: A little, yeah. I copy login links, sometimes even codes. I wouldn’t want those saved unless I know they’re encrypted or easy to delete.\n\nQ: What would make it feel useful vs. just extra clutter?\nA: Clean UI and the ability to delete stuff. I’d want to make sure it’s not logging things forever.\n\nQ: Would you recommend it to others?\nA: If it’s lightweight and fast, for sure. Especially people like me who are juggling a million things at once.",
+    "time": "02:23 PM",
+    "timestamp": "2025-05-19T14:23:33.991338",
+    "chars": "855 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "PyQt5.QtWidgets",
+    "time": "02:23 PM",
+    "timestamp": "2025-05-19T14:23:31.972187",
+    "chars": "15 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "PyQt5.QtWidgets",
+    "time": "02:09 PM",
+    "timestamp": "2025-05-16T14:09:06.974315",
+    "chars": "15 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "Q: What do you copy-paste the most?\nA: Logistics—Zoom links, announcements, event details. I’m always bouncing between Google Docs, Canvas, and my inbox.\n\nQ: Would ClipBoard be useful for that kind of work?\nA: Yeah, especially if I could search by date. Like, “what was that link I sent in our club email last Wednesday?”\n\nQ: Would you be concerned about it recording everything, including sensitive stuff?\nA: A little, yeah. I copy login links, sometimes even codes. I wouldn’t want those saved unless I know they’re encrypted or easy to delete.\n\nQ: What would make it feel useful vs. just extra clutter?\nA: Clean UI and the ability to delete stuff. I’d want to make sure it’s not logging things forever.\n\nQ: Would you recommend it to others?\nA: If it’s lightweight and fast, for sure. Especially people like me who are juggling a million things at once.",
+    "time": "01:30 PM",
+    "timestamp": "2025-05-16T13:30:32.692015",
+    "chars": "855 characters"
+  },
+  {
+    "type": "Code",
+    "content": "Q: What do you copy most often?\nA: It’s kind of random—sometimes images, sometimes text. I also copy links from emails or Common App essays when I move between platforms.\n\nQ: Would you actually use something like ClipBoard?\nA: Depends. If it ran in the background and didn’t get in the way, maybe. I’d love if it remembered links and snippets, especially during college app crunch.\n\nQ: How concerned would you be about private stuff being saved?\nA: Yeah that could be a dealbreaker. Sometimes I copy pieces of personal statements or private info from Naviance—so I’d need a clear “delete now” button or filters.\n\nQ: What’s your biggest frustration with copy-paste right now?\nA: Losing copied content when switching between apps. I can’t tell you how many times I’ve copied an essay paragraph, pasted over it by accident, and lost it.\n\nQ: Feature request?\nA: Maybe syncing between devices? Like if I copied something on my laptop, could I access it later on my phone?",
+    "time": "01:30 PM",
+    "timestamp": "2025-05-16T13:30:19.649432",
+    "chars": "966 characters"
+  },
+  {
+    "type": "Code",
+    "content": "Q: How do you use copy-paste on a typical school day?\nA: I’m always copying chunks of text from JSTOR articles, quotes from PDFs, or citations. It’s a lot of copy-paste chaos.\n\nQ: Would it help to have a searchable history of what you copied?\nA: 100%. Sometimes I copy a quote and then overwrite it accidentally. If ClipBoard helps me tag things or auto-organize quotes, that would be amazing.\n\nQ: How would you feel about it saving everything you copy, even by accident?\nA: I’d be a little nervous if it kept private notes or messages. I’d want to know how to delete specific items—or maybe exclude certain apps like Notes or Messenger.\n\nQ: Would you care about categories like ‘quotes’ vs. ‘plain text’?\nA: Definitely. If it could auto-detect quotes or even just save the source URL with it, that would be golden for research papers.\n\nQ: Anything you’d change?\nA: A visual interface would help—like a timeline view of what I copied. Maybe even a favorite/star feature?",
+    "time": "01:30 PM",
+    "timestamp": "2025-05-16T13:30:03.078707",
+    "chars": "970 characters"
+  },
+  {
+    "type": "Code",
+    "content": "Q: How do you usually use your clipboard on your laptop?\nA: Mostly for copying Python snippets, error messages, or math LaTeX code. I’ll often copy something, get distracted, and then lose it.\n\nQ: Would a clipboard history app like ClipBoard be useful to you?\nA: Yeah, definitely. Especially if it can separate code from regular text or links—I spend too much time digging through old files or notes just to find a line I copied earlier.\n\nQ: How would you imagine using it in a school setting?\nA: During coding assignments or comps prep. Also useful when writing research papers—copying citations or quotes I don’t want to lose.\n\nQ: How worried would you be about it storing sensitive information, like passwords or private messages?\nA: Pretty worried. I sometimes copy login tokens or test keys by accident. I’d want the option to blacklist certain apps or clear recent entries quickly.\n\nQ: Anything you’d want improved or added?\nA: A “private mode” would be great—something that stops recording clipboard activity when toggled.",
+    "time": "01:29 PM",
+    "timestamp": "2025-05-16T13:29:47.376473",
+    "chars": "1029 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "# ClipBoard (Maybe a little more descriptive?)\n\nOne-liner? Maybe move the brief description up here\nDeveloped by CSC572: The Open Source Movement, Spring 2024-2025\n\n## Brief Description (update this to be more complex as stuff gets developed)\nClipBoard records everything copied to the system clipboard and aims to intelligently organize it into categories like code snippets, quotes, math equations, URLs, or plain text. Users can search past entries via tags, date, or keywords, making it easy to find what they copied days or weeks ago.\n\n![some kind of image or visual](UI%20Idea.png)\n\n### Instructions to download for users\nDependencies:\n- pyperclip\n- python\n\n### Instructions to potentional collaborators\n\n### Expectations for contributions (maybe can merge with above)\n\n### Known issues? maybe keep to issues tab\n\n### Licenses        ",
+    "time": "01:28 PM",
+    "timestamp": "2025-05-16T13:28:27.239697",
+    "chars": "840 characters"
+  },
+  {
     "type": "Code",
     "content": "Implemented search functionality to find items by content",
     "time": "12:48 PM",
