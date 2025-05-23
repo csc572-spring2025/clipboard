@@ -21,14 +21,17 @@ Open application using
 
 ### ```python backgroundapp.py```
 
-### Instructions to potentional collaborators
+### Potential Contribution
+- Add a "delete" button to remove a specific entry
+- Generate tags for each entry based on the content
+- Special shortcut for non-tracking copy-paste (cmd+shift+c)
 
-### Expectations for contributions (maybe can merge with above)
-
-### Known issues? maybe keep to issues tab
+### Known issues
 
 - Copy button doesn't switch to Copied when completed
-- Blocks of copy-paste history are super large and clog up the window too much
-- 
+- Blocks of copy-paste history are super large and clog up the window too much (should be condensed)
+- Categorization logic doesn't work well
 
 ### Licenses        
+
+MIT License
