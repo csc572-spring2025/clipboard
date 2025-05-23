@@ -74,6 +74,25 @@ class ClipboardManager(QMainWindow):
         sidebar_layout.addWidget(self.latex_btn)
         sidebar_layout.addWidget(self.quotes_btn)
         sidebar_layout.addWidget(self.plaintext_btn)
+
+        # Clear all button
+        clear_btn = QPushButton("🗑 Clear All")
+        clear_btn.setStyleSheet("""
+            QPushButton {
+                text-align: left;
+                padding: 10px;
+                font-size: 16px;
+                background-color: transparent;
+                color: black;
+                border: none;
+                border-radius: 6px;
+            }
+            QPushButton:hover {
+                background-color: #333;
+            }
+        """)
+        clear_btn.clicked.connect(self.clear_clipboard_history)
+        sidebar_layout.addWidget(clear_btn)
         
         # create a QLabel (non-interactive components that can display text and/or an image) and a placeholder for the slider
         # length_label = QLabel("Length") # length currently does nothing
@@ -413,6 +432,17 @@ class ClipboardManager(QMainWindow):
                 json.dump(self.clipboard_items, f, ensure_ascii=False, indent=2)
         except Exception as e:
             print(f"Error saving clipboard data: {e}")
+
+    def clear_clipboard_history(self):
+        self.clipboard_items.clear()  # Clear the internal list
+
+        # Remove all widgets from the GUI layout
+        while self.items_layout.count() > 1:
+            item = self.items_layout.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
+
+        self.save_clipboard_data()  # Update the saved data file
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
