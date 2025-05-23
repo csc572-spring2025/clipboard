@@ -15,7 +15,7 @@ Dependencies:
 
 Install dependencies with:
 
-### ```pip install pyperclip PyQt5 ```
+###  ```pip install -r requirements.txt```
 
 Open application using
 
