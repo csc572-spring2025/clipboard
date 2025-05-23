@@ -16,7 +16,7 @@ import threading
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                             QHBoxLayout, QPushButton, QLabel, QListWidget, 
                             QLineEdit, QTabWidget, QScrollArea, QFrame,
-                            QSystemTrayIcon, QMenu, QAction)
+                            QSystemTrayIcon, QMenu, QAction, QMessageBox)
 from PyQt5.QtCore import Qt, QSize, pyqtSignal, QObject
 from PyQt5.QtGui import QIcon, QFont
 import pyperclip
@@ -179,6 +179,30 @@ class ClipboardManager(QMainWindow):
         self.monitor_thread = threading.Thread(target=self.monitor_clipboard)
         self.monitor_thread.daemon = True
         self.monitor_thread.start()
+
+        self.button = QPushButton("Clear All", self)
+        self.button.move(100, 80)
+        self.button.clicked.connect(self.show_popup)
+
+    def show_popup(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Popup Title")
+        msg.setText("This is the main text of the popup!")
+        msg.setIcon(QMessageBox.Information) # Optional: Set icon
+        msg.setStandardButtons(QMessageBox.Cancel) # Optional: Add buttons
+
+        clear_button = msg.addButton("Clear", QMessageBox.ActionRole)
+
+        # Additional options (optional):
+        msg.setInformativeText("More details can be added here.")
+        msg.setDetailedText("Detailed information if needed.")
+
+        result = msg.exec_() # Show the popup and get the user's choice
+
+        if msg.clickedButton() == clear_button:
+            print("User clicked OK")
+        elif result == QMessageBox.Cancel:
+            print("User clicked Cancel")
     
     # returns a button that is ready to be added to the sidebar
     # params: text (the label for the button)
