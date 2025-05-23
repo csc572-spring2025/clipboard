@@ -22,7 +22,7 @@ from PyQt5.QtGui import QIcon, QFont
 import pyperclip
 import datetime
 
-# 
+# when emitted, this signal sends a the clipboard item info as a dictionary
 class ClipboardSignals(QObject):
     new_clipboard_content = pyqtSignal(dict)
 
