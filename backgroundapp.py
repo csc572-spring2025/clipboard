@@ -48,6 +48,13 @@ class ClipboardManager(QMainWindow):
         self.latex_btn = self.create_sidebar_button("LaTeX", "𝐄")
         self.quotes_btn = self.create_sidebar_button("Quotes", "❝")
         self.plaintext_btn = self.create_sidebar_button("Plaintext", "≡")
+
+        # turns mouse into a pointer
+        self.all_btn.setCursor(Qt.PointingHandCursor)
+        self.code_btn.setCursor(Qt.PointingHandCursor)
+        self.latex_btn.setCursor(Qt.PointingHandCursor)
+        self.quotes_btn.setCursor(Qt.PointingHandCursor)
+        self.plaintext_btn.setCursor(Qt.PointingHandCursor)
         
         # filter buttons
         self.all_btn.clicked.connect(lambda: self.filter_items("All"))
@@ -96,9 +103,27 @@ class ClipboardManager(QMainWindow):
         content_layout.addLayout(search_layout)
         
         # clipboard items area
+
+        # scroll area and scroll
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
-        scroll_area.setStyleSheet("border: none;")
+        scroll_area.setStyleSheet("""
+            QScrollArea {
+                border: none;
+            }
+            QScrollBar::handle:vertical {
+                border: 1px outset gray;
+            }
+            QScrollBar::handle:vertical:hover {
+                background-color: #dedede;
+            }
+            QScrollBar::handle:horizontal {
+                border: 1px outset gray;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background-color: #dedede;
+            }
+            """)
         self.items_widget = QWidget()
         self.items_layout = QVBoxLayout(self.items_widget)
         self.items_layout.addStretch()
@@ -164,7 +189,7 @@ class ClipboardManager(QMainWindow):
         else:
             icon_label.setText("≡")
         
-        icon_label.setStyleSheet("font-size: 24px; color: #888;")
+        icon_label.setStyleSheet("font-size: 32px; color: #888;")
         top_layout.addWidget(icon_label)
         
         content_label = QLabel(item["content"])
@@ -181,6 +206,8 @@ class ClipboardManager(QMainWindow):
                 font-size: 16px;
             }
         """)
+
+        copy_btn.setCursor(Qt.PointingHandCursor)
         copy_btn.clicked.connect(lambda: pyperclip.copy(item["content"]))
         top_layout.addWidget(copy_btn)
         
