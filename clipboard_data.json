@@ -1,6 +1,34 @@
 [
   {
     "type": "Plaintext",
+    "content": "clear_button = msg.addButton(\"Clear\", QMessageBox.ActionRole)",
+    "time": "02:32 PM",
+    "timestamp": "2025-05-23T14:32:34.841141",
+    "chars": "61 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel) # Optional: Add buttons\n",
+    "time": "02:31 PM",
+    "timestamp": "2025-05-23T14:31:54.585633",
+    "chars": "92 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "self.button = QPushButton(\"Show Popup\", self)\n        self.button.move(100, 80)\n        self.button.clicked.connect(self.show_popup)",
+    "time": "02:26 PM",
+    "timestamp": "2025-05-23T14:26:09.354659",
+    "chars": "132 characters"
+  },
+  {
+    "type": "Code",
+    "content": "def show_popup(self):\n        msg = QMessageBox()\n        msg.setWindowTitle(\"Popup Title\")\n        msg.setText(\"This is the main text of the popup!\")\n        msg.setIcon(QMessageBox.Information) # Optional: Set icon\n        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel) # Optional: Add buttons\n\n        # Additional options (optional):\n        msg.setInformativeText(\"More details can be added here.\")\n        msg.setDetailedText(\"Detailed information if needed.\")\n\n        result = msg.exec_() # Show the popup and get the user's choice\n\n        if result == QMessageBox.Ok:\n            print(\"User clicked OK\")\n        elif result == QMessageBox.Cancel:\n            print(\"User clicked Cancel\")",
+    "time": "02:24 PM",
+    "timestamp": "2025-05-23T14:24:21.342862",
+    "chars": "711 characters"
+  },
+  {
+    "type": "Plaintext",
     "content": "",
     "time": "02:01 PM",
     "timestamp": "2025-05-23T14:01:45.688968",
