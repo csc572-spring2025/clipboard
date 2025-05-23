@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "type": "Plaintext",
+    "content": "2px",
+    "time": "02:22 PM",
+    "timestamp": "2025-05-23T14:22:39.462574",
+    "chars": "3 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "ECABF5",
+    "time": "02:22 PM",
+    "timestamp": "2025-05-23T14:22:12.680308",
+    "chars": "6 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "hi",
+    "time": "02:20 PM",
+    "timestamp": "2025-05-23T14:20:44.786330",
+    "chars": "2 characters"
+  }
+]

@@ -76,15 +76,15 @@ class ClipboardManager(QMainWindow):
         sidebar_layout.addWidget(self.plaintext_btn)
 
         # Clear all button
-        clear_btn = QPushButton("🗑 Clear All")
+        clear_btn = QPushButton("Clear All")
         clear_btn.setStyleSheet("""
             QPushButton {
                 text-align: left;
                 padding: 10px;
                 font-size: 16px;
                 background-color: transparent;
-                color: black;
-                border: none;
+                color: #ECABF5;
+                border: 1px solid #ECABF5;
                 border-radius: 6px;
             }
             QPushButton:hover {
@@ -107,7 +107,7 @@ class ClipboardManager(QMainWindow):
         content_area = QWidget()
         content_layout = QVBoxLayout(content_area)
         
-        # create search layout: search bar + settings
+        # create search layout: search bar
         search_layout = QHBoxLayout()
         self.search_bar = QLineEdit()
         self.search_bar.setPlaceholderText("Search")
@@ -122,11 +122,11 @@ class ClipboardManager(QMainWindow):
         self.search_bar.textChanged.connect(self.search_items)
         search_layout.addWidget(self.search_bar)
         
-        # settings button (currently does nothing)
-        settings_btn = QPushButton("⚙")
-        settings_btn.setFixedSize(40, 40)
-        settings_btn.setStyleSheet("background-color: transparent; font-size: 20px;")
-        search_layout.addWidget(settings_btn)
+        # # settings button (currently does nothing)
+        # settings_btn = QPushButton("⚙")
+        # settings_btn.setFixedSize(40, 40)
+        # settings_btn.setStyleSheet("background-color: transparent; font-size: 20px;")
+        # search_layout.addWidget(settings_btn)
         
         # add search layout into the main layout of the app
         content_layout.addLayout(search_layout)
