@@ -162,6 +162,181 @@
   },
   {
     "type": "Code",
+    "content": "   def setup_system_tray(self):\n        \"\"\"\n        Initializes the system tray icon and its context menu with Show, Hide, and Quit options.\n        \"\"\"\n        ...\n\n    def tray_icon_activated(self, reason):\n        \"\"\"\n        Handles the system tray icon double-click behavior.\n\n        Parameters:\n        - reason (QSystemTrayIcon.ActivationReason): The type of interaction performed on the tray icon.\n        \"\"\"",
+    "time": "01:36 PM",
+    "timestamp": "2025-05-23T13:36:25.067732",
+    "chars": "418 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "self.clipboard_items",
+    "time": "01:35 PM",
+    "timestamp": "2025-05-23T13:35:49.029223",
+    "chars": "20 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "# for each clipboard item, if the search entry matches a substring in the item content",
+    "time": "01:35 PM",
+    "timestamp": "2025-05-23T13:35:13.564234",
+    "chars": "86 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "Overrides the default close behavior to hide the window instead of quitting.\n\n        Parameters:\n        - event (QCloseEvent): The event triggered when the window is closed.",
+    "time": "01:29 PM",
+    "timestamp": "2025-05-23T13:29:34.165036",
+    "chars": "175 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "Initializes the system tray icon and its context menu with Show, Hide, and Quit options.",
+    "time": "01:27 PM",
+    "timestamp": "2025-05-23T13:27:51.727535",
+    "chars": "88 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "system tray icon a",
+    "time": "01:27 PM",
+    "timestamp": "2025-05-23T13:27:44.835465",
+    "chars": "18 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "ISO timestamp\n",
+    "time": "01:26 PM",
+    "timestamp": "2025-05-23T13:26:48.454824",
+    "chars": "14 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "content_layout.addLayout(search_layout)\n",
+    "time": "01:22 PM",
+    "timestamp": "2025-05-23T13:22:28.122116",
+    "chars": "40 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "Sidebar filter for different content types",
+    "time": "01:20 PM",
+    "timestamp": "2025-05-23T13:20:58.315489",
+    "chars": "42 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "        content_layout.addLayout(search_layout)\n",
+    "time": "01:17 PM",
+    "timestamp": "2025-05-23T13:17:50.499032",
+    "chars": "48 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "# Add sidebar and content area to the main layout",
+    "time": "01:17 PM",
+    "timestamp": "2025-05-23T13:17:42.555253",
+    "chars": "49 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "components that can display text and/or an image. This component can be added to a JPanel or a JFrame, but users cannot interact with JLabels.",
+    "time": "01:14 PM",
+    "timestamp": "2025-05-23T13:14:17.935516",
+    "chars": "142 characters"
+  },
+  {
+    "type": "Code",
+    "content": "'''\nThis file is the frontend\n'''\n\nimport sys\nimport os\nimport json\nimport time\nimport threading\nfrom PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, \n                            QHBoxLayout, QPushButton, QLabel, QListWidget, \n                            QLineEdit, QTabWidget, QScrollArea, QFrame,\n                            QSystemTrayIcon, QMenu, QAction)\nfrom PyQt5.QtCore import Qt, QSize, pyqtSignal, QObject\nfrom PyQt5.QtGui import QIcon, QFont\nimport pyperclip\nimport datetime\n\nclass ClipboardSignals(QObject):\n    new_clipboard_content = pyqtSignal(dict)\n\nclass ClipboardManager(QMainWindow):\n    def __init__(self):\n        super().__init__()\n        self.setWindowTitle(\"Clipboard\")\n        self.setMinimumSize(800, 600)\n        self.setStyleSheet(\"background-color: #1e1e1e; color: white;\")\n        \n        self.clipboard_items = []\n        self.data_file = \"clipboard_data.json\"\n        self.load_clipboard_data()\n        \n        self.signals = ClipboardSignals()\n        self.signals.new_clipboard_content.connect(self.add_clipboard_item)\n        \n        # main page\n        main_widget = QWidget()\n        self.setCentralWidget(main_widget)\n        main_layout = QHBoxLayout(main_widget)\n        \n        # sidebar\n        sidebar = QWidget()\n        sidebar.setMaximumWidth(270)\n        sidebar_layout = QVBoxLayout(sidebar)\n        title_label = QLabel(\"Clipboard\")\n        title_label.setFont(QFont(\"Arial\", 24, QFont.Bold))\n        sidebar_layout.addWidget(title_label)\n        \n        # buttons\n        self.all_btn = self.create_sidebar_button(\"All\", \"≡\")\n        self.code_btn = self.create_sidebar_button(\"Code\", \"⌨\")\n        self.latex_btn = self.create_sidebar_button(\"LaTeX\", \"𝐄\")\n        self.quotes_btn = self.create_sidebar_button(\"Quotes\", \"❝\")\n        self.plaintext_btn = self.create_sidebar_button(\"Plaintext\", \"≡\")\n        \n        # filter buttons\n        self.all_btn.clicked.connect(lambda: self.filter_items(\"All\"))\n        self.code_btn.clicked.connect(lambda: self.filter_items(\"Code\"))\n        self.latex_btn.clicked.connect(lambda: self.filter_items(\"LaTeX\"))\n        self.quotes_btn.clicked.connect(lambda: self.filter_items(\"Quotes\"))\n        self.plaintext_btn.clicked.connect(lambda: self.filter_items(\"Plaintext\"))\n        \n        sidebar_layout.addWidget(self.all_btn)\n        sidebar_layout.addWidget(self.code_btn)\n        sidebar_layout.addWidget(self.latex_btn)\n        sidebar_layout.addWidget(self.quotes_btn)\n        sidebar_layout.addWidget(self.plaintext_btn)\n        \n        length_label = QLabel(\"Length\")\n        sidebar_layout.addWidget(length_label)\n        slider_frame = QFrame()\n        slider_frame.setFrameShape(QFrame.StyledPanel)\n        slider_frame.setMinimumHeight(30)\n        sidebar_layout.addWidget(slider_frame)\n        sidebar_layout.addStretch()\n        content_area = QWidget()\n        content_layout = QVBoxLayout(content_area)\n        \n        # search bar\n        search_layout = QHBoxLayout()\n        self.search_bar = QLineEdit()\n        self.search_bar.setPlaceholderText(\"Search\")\n        self.search_bar.setStyleSheet(\"\"\"\n            QLineEdit {\n                background-color: #333;\n                border-radius: 5px;\n                padding: 8px;\n                font-size: 16px;\n            }\n        \"\"\")\n        self.search_bar.textChanged.connect(self.search_items)\n        search_layout.addWidget(self.search_bar)\n        \n        # settings \n        settings_btn = QPushButton(\"⚙\")\n        settings_btn.setFixedSize(40, 40)\n        settings_btn.setStyleSheet(\"background-color: transparent; font-size: 20px;\")\n        search_layout.addWidget(settings_btn)\n        \n        content_layout.addLayout(search_layout)\n        \n        # clipboard items area\n        scroll_area = QScrollArea()\n        scroll_area.setWidgetResizable(True)\n        scroll_area.setStyleSheet(\"border: none;\")\n        self.items_widget = QWidget()\n        self.items_layout = QVBoxLayout(self.items_widget)\n        self.items_layout.addStretch()\n        \n        scroll_area.setWidget(self.items_widget)\n        content_layout.addWidget(scroll_area)\n        \n        main_layout.addWidget(sidebar)\n        main_layout.addWidget(content_area)\n        \n        self.setup_system_tray()\n        self.display_clipboard_items()\n        \n        # start clipboard monitoring in a separate thread\n        self.monitoring_active = True\n        self.monitor_thread = threading.Thread(target=self.monitor_clipboard)\n        self.monitor_thread.daemon = True\n        self.monitor_thread.start()\n    \n    def create_sidebar_button(self, text, icon_text):\n        btn = QPushButton(f\" {text}\")\n        btn.setIcon(QIcon())  \n        btn.setIconSize(QSize(24, 24))\n        btn.setStyleSheet(\"\"\"\n            QPushButton {\n                text-align: left;\n                padding: 10px;\n                font-size: 16px;\n                background-color: transparent;\n                border: none;\n                border-radius: 6px;\n            }\n            QPushButton:hover {\n                background-color: #333;\n            }\n        \"\"\")\n        return btn\n    \n    def create_clipboard_item(self, item):\n        frame = QFrame()\n        frame.setFrameShape(QFrame.StyledPanel)\n        frame.setStyleSheet(\"\"\"\n            QFrame {\n                background-color: #2d2d2d;\n                border-radius: 8px;\n                margin: 5px 0;\n                padding: 5px;\n            }\n        \"\"\")\n        \n        layout = QVBoxLayout(frame)\n        \n        # content and copy button\n        top_layout = QHBoxLayout()\n        \n        # icon based on type\n        icon_label = QLabel()\n        if item[\"type\"] == \"Code\":\n            icon_label.setText(\"⌨\")\n        elif item[\"type\"] == \"LaTeX\":\n            icon_label.setText(\"𝐄\")\n        elif item[\"type\"] == \"Quotes\":\n            icon_label.setText(\"❝\")\n        else:\n            icon_label.setText(\"≡\")\n        \n        icon_label.setStyleSheet(\"font-size: 48px; color: #888;\")\n        top_layout.addWidget(icon_label)\n        \n        content_label = QLabel(item[\"content\"])\n        content_label.setStyleSheet(\"font-size: 16px;\")\n        content_label.setWordWrap(True)\n        top_layout.addWidget(content_label, 1)\n        \n        copy_btn = QPushButton(\"Copy\")\n        copy_btn.setStyleSheet(\"\"\"\n            QPushButton {\n                background-color: transparent;\n                color: white;\n                border: none;\n                border-radius: 6px;\n                font-size: 16px;\n                padding: 5px;\n            }\n            QPushButton:hover {\n                background-color: #FFF;\n                color: #333;\n            }\n        \"\"\")\n        copy_btn.clicked.connect(lambda: pyperclip.copy(item[\"content\"]))\n        top_layout.addWidget(copy_btn)\n        \n        layout.addLayout(top_layout)\n        \n        # type and time info\n        info_layout = QHBoxLayout()\n        type_label = QLabel(item[\"type\"])\n        type_label.setStyleSheet(\"color: #888;\")\n        time_label = QLabel(item[\"time\"])\n        time_label.setStyleSheet(\"color: #888;\")\n        chars_label = QLabel(item[\"chars\"])\n        chars_label.setStyleSheet(\"color: #888;\")\n        \n        info_layout.addWidget(type_label)\n        info_layout.addWidget(time_label)\n        info_layout.addStretch()\n        info_layout.addWidget(chars_label)\n        \n        layout.addLayout(info_layout)\n        \n        return frame\n    \n    def setup_system_tray(self):\n        self.tray_icon = QSystemTrayIcon(self)\n        self.tray_icon.setIcon(QIcon.fromTheme(\"edit-copy\"))  \n        \n        tray_menu = QMenu()\n        \n        show_action = QAction(\"Show\", self)\n        show_action.triggered.connect(self.show)\n        \n        hide_action = QAction(\"Hide\", self)\n        hide_action.triggered.connect(self.hide)\n        \n        quit_action = QAction(\"Quit\", self)\n        quit_action.triggered.connect(self.quit_application)\n        \n        tray_menu.addAction(show_action)\n        tray_menu.addAction(hide_action)\n        tray_menu.addSeparator()\n        tray_menu.addAction(quit_action)\n        \n\n        self.tray_icon.setContextMenu(tray_menu)\n        self.tray_icon.show()\n        self.tray_icon.activated.connect(self.tray_icon_activated)\n    \n    def tray_icon_activated(self, reason):\n        if reason == QSystemTrayIcon.DoubleClick:\n            if self.isVisible():\n                self.hide()\n            else:\n                self.show()\n                self.activateWindow()\n    \n    def closeEvent(self, event):\n        event.ignore()\n        self.hide()\n    \n    def quit_application(self):\n        # save data before quitting\n        self.save_clipboard_data()\n        self.monitoring_active = False\n        QApplication.quit()\n    \n    def monitor_clipboard(self):\n        if not os.path.exists(\"clipboard_logs\"):\n            os.makedirs(\"clipboard_logs\")\n        \n        previous_content = pyperclip.paste()\n        seen_entries = {previous_content}\n        \n        while self.monitoring_active:\n            try:\n                current_content = pyperclip.paste()\n                \n                if current_content != previous_content and current_content not in seen_entries:\n                    timestamp = datetime.datetime.now()\n                    formatted_time = timestamp.strftime(\"%I:%M %p\")\n                    \n\n                    content_type = self.categorize_content(current_content)\n                    \n                    item = {\n                        \"type\": content_type,\n                        \"content\": current_content,\n                        \"time\": formatted_time,\n                        \"timestamp\": timestamp.isoformat(),\n                        \"chars\": f\"{len(current_content)} characters\"\n                    }\n                    \n\n                    self.signals.new_clipboard_content.emit(item)\n                    \n\n                    previous_content = current_content\n                    seen_entries.add(current_content)\n                \n                time.sleep(0.5)\n                \n            except Exception as e:\n                print(f\"Error in clipboard monitoring: {e}\")\n                time.sleep(1)\n    \n    def categorize_content(self, content):\n        # super simple categorization that doesn't really work but can be updated\n        content = content.strip()\n        \n        # Check for code\n        code_indicators = [\"def \", \"function\", \"class \", \"{\", \"};\", \"import \", \"from \", \"public \", \"private \", \"#include\"]\n        for indicator in code_indicators:\n            if indicator in content:\n                return \"Code\"\n        \n        # Check for LaTeX\n        latex_indicators = [\"\\\\begin{\", \"\\\\end{\", \"\\\\frac\", \"\\\\sum\", \"\\\\int\", \"\\\\lim\", \"\\\\mathbb\"]\n        for indicator in latex_indicators:\n            if indicator in content:\n                return \"LaTeX\"\n        \n        # Check for quotes\n        if (content.startswith('\"') and content.endswith('\"')) or (content.startswith(\"'\") and content.endswith(\"'\")):\n            return \"Quotes\"\n        \n        # Default to plaintext\n        return \"Plaintext\"\n    \n    def add_clipboard_item(self, item):\n        self.clipboard_items.insert(0, item)\n        self.save_clipboard_data()\n        item_widget = self.create_clipboard_item(item)\n        self.items_layout.insertWidget(0, item_widget)\n    \n    def display_clipboard_items(self):\n        while self.items_layout.count() > 1: \n            item = self.items_layout.takeAt(0)\n            if item.widget():\n                item.widget().deleteLater()\n        for item in self.clipboard_items:\n            item_widget = self.create_clipboard_item(item)\n            self.items_layout.insertWidget(0, item_widget)\n    \n    def filter_items(self, filter_type):\n        while self.items_layout.count() > 1: \n            item = self.items_layout.takeAt(0)\n            if item.widget():\n                item.widget().deleteLater()\n        for item in self.clipboard_items:\n            if filter_type == \"All\" or item[\"type\"] == filter_type:\n                item_widget = self.create_clipboard_item(item)\n                self.items_layout.insertWidget(0, item_widget)\n    \n    def search_items(self):\n        search_text = self.search_bar.text().lower()\n        \n        while self.items_layout.count() > 1: \n            item = self.items_layout.takeAt(0)\n            if item.widget():\n                item.widget().deleteLater()\n        for item in self.clipboard_items:\n            if search_text in item[\"content\"].lower():\n                item_widget = self.create_clipboard_item(item)\n                self.items_layout.insertWidget(0, item_widget)\n    \n    def load_clipboard_data(self):\n        try:\n            if os.path.exists(self.data_file):\n                with open(self.data_file, 'r', encoding='utf-8') as f:\n                    self.clipboard_items = json.load(f)\n            else:\n                self.clipboard_items = []\n        except Exception as e:\n            print(f\"Error loading clipboard data: {e}\")\n            self.clipboard_items = []\n    \n    def save_clipboard_data(self):\n        try:\n            with open(self.data_file, 'w', encoding='utf-8') as f:\n                json.dump(self.clipboard_items, f, ensure_ascii=False, indent=2)\n        except Exception as e:\n            print(f\"Error saving clipboard data: {e}\")\n\nif __name__ == \"__main__\":\n    app = QApplication(sys.argv)\n    window = ClipboardManager()\n    window.show()\n    sys.exit(app.exec_())",
+    "time": "01:08 PM",
+    "timestamp": "2025-05-23T13:08:44.844832",
+    "chars": "13543 characters"
+  },
+  {
+    "type": "Code",
+    "content": "Implemented search functionality to find items by content",
+    "time": "01:08 PM",
+    "timestamp": "2025-05-23T13:08:34.196615",
+    "chars": "57 characters"
+  },
+  {
+    "type": "Quotes",
+    "content": "'\"'",
+    "time": "10:09 AM",
+    "timestamp": "2025-05-22T10:09:18.279356",
+    "chars": "3 characters"
+  },
+  {
+    "type": "Quotes",
+    "content": "'hello'",
+    "time": "10:09 AM",
+    "timestamp": "2025-05-22T10:09:12.415793",
+    "chars": "7 characters"
+  },
+  {
+    "type": "Quotes",
+    "content": "\"hello\"",
+    "time": "10:09 AM",
+    "timestamp": "2025-05-22T10:09:00.662578",
+    "chars": "7 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "border-radius: 2px;",
+    "time": "10:05 AM",
+    "timestamp": "2025-05-22T10:05:15.144294",
+    "chars": "19 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "2d2d2d",
+    "time": "10:03 AM",
+    "timestamp": "2025-05-22T10:03:42.798944",
+    "chars": "6 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "je;;",
+    "time": "01:54 PM",
+    "timestamp": "2025-05-21T13:54:00.787462",
+    "chars": "4 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "U U",
+    "time": "01:16 PM",
+    "timestamp": "2025-05-21T13:16:53.985671",
+    "chars": "3 characters"
+  },
+  {
+    "type": "Code",
+    "content": "Implemented search functionality to find items by content",
+    "time": "12:55 PM",
+    "timestamp": "2025-05-21T12:55:18.423799",
+    "chars": "57 characters"
+  },
+  {
+    "type": "Code",
+    "content": "QPushButton:hover {\n                background-color: #333;\n            }",
+    "time": "12:55 PM",
+    "timestamp": "2025-05-21T12:55:01.972195",
+    "chars": "73 characters"
+  },
+  {
+    "type": "Code",
+    "content": "Implemented search functionality to find items by content",
+    "time": "12:54 PM",
+    "timestamp": "2025-05-21T12:54:01.314154",
+    "chars": "57 characters"
+  },
+  {
+    "type": "Plaintext",
+    "content": "je;;",
+    "time": "12:53 PM",
+    "timestamp": "2025-05-21T12:53:27.723192",
+    "chars": "4 characters"
+  },
+  {
+    "type": "Code",
     "content": "Implemented search functionality to find items by content",
     "time": "12:48 PM",
     "timestamp": "2025-05-16T12:48:27.088091",
