@@ -5,10 +5,7 @@ Developed by CSC572: The Open Source Movement, Spring 2024-2025
 
 ## Brief Description
 
-ClipBoard records everything copied to the system clipboard and aims to intelligently organize it into categories like code snippets, quotes, math equations, URLs, or plain text. Users can search past entries via tags, date, or keywords, making it easy to find what they copied days or weeks ago.
-
-UI Display:
-![Example](userinterface.png)
+ClipBoard records everything copied to the system clipboard and aims to intelligently organize it into categories like code snippets, quotes, math equations, URLs, or plain text. Users can navigate through each ClipBoard category through labeled tabs on the left-hand side of the application. Users can also search past entries via tags, date, or keywords, making it easy to find what they copied days or weeks ago. Lastly, if ClipBoard ever becomes too cluttered, users have the option to clear their copy history.
 
 ### Instructions to download for users
 
@@ -39,14 +36,14 @@ You can start editing the ClipBoard by modifying backgroundapp.py. In order to v
 ### Potential Contribution
 
 - Generate tags for each entry based on the content
-- Special shortcut for non-tracking copy-paste (cmd+shift+c)
-- Address any known issues
+- Add a special shortcut for non-tracking copy-paste (ex. cmd+shift+c)
+- Address any known issues (see section below)
 
 ### Known Issues
 
-- Copy button doesn't switch to Copied when completed
-- Blocks of copy-paste history are super large and clog up the window too much (should be condensed)
-- Categorization logic doesn't work well
+- The copy button doesn't switch to "Copied" when clicked on
+- Blocks of copy-paste history are super large and clog up the window too much. These blocks could be compressed
+- The categorization logic doesn't work well (struggles between code/plaintext)
 
 ### License
 
