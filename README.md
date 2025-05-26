@@ -13,20 +13,21 @@ UI Display:
 ### Instructions to download for users
 
 Dependencies:
+
 - pyperclip
 - PyQt5
 
 Install dependencies with:
 
-###  ```pip install -r requirements.txt``` or ```pip3 install -r requirements.txt```
+### ```pip install -r requirements.txt``` or ```pip3 install -r requirements.txt```
 
 Open application using
 
 ### ```python backgroundapp.py```
 
-### Contributing to Spotify Analyzer
+### Contributing to ClipBoard
 
-You can start editing the ClipBoard by modifying backgroundapp.py. In order to view your changes, you must close and reopen the Python application ClipBoard is running on. 
+You can start editing the ClipBoard by modifying backgroundapp.py. In order to view your changes, you must close and reopen the Python application ClipBoard is running on.
 
 ### Expectations for Contributions
 
