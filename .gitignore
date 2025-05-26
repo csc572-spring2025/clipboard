@@ -1,2 +1,5 @@
 clipboard_data.json
 clipboard_logs/*
+venv/*
+env/*
+*/__pycache__/*
