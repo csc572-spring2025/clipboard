@@ -98,7 +98,7 @@ class ClipboardManager(QMainWindow):
                 background-color: #333;
             }
         """)
-        clear_btn.clicked.connect(self.clear_clipboard_history)
+        clear_btn.clicked.connect(self.show_popup)
         sidebar_layout.addWidget(clear_btn)
         
         # create a QLabel (non-interactive components that can display text and/or an image) and a placeholder for the slider
@@ -180,29 +180,23 @@ class ClipboardManager(QMainWindow):
         self.monitor_thread.daemon = True
         self.monitor_thread.start()
 
-        self.button = QPushButton("Clear All", self)
-        self.button.move(100, 80)
-        self.button.clicked.connect(self.show_popup)
-
     def show_popup(self):
         msg = QMessageBox()
-        msg.setWindowTitle("Popup Title")
-        msg.setText("This is the main text of the popup!")
-        msg.setIcon(QMessageBox.Information) # Optional: Set icon
-        msg.setStandardButtons(QMessageBox.Cancel) # Optional: Add buttons
+        msg.setWindowTitle("Clear Copy History")
+        msg.setText("Are you sure you want to clear your copy history?")
 
-        clear_button = msg.addButton("Clear", QMessageBox.ActionRole)
+        # clear_button = msg.addButton("Clear", QMessageBox.ActionRole)
+        msg.setIcon(QMessageBox.Warning) # Optional: Set icon
+        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel) # Optional: Add buttons
 
         # Additional options (optional):
-        msg.setInformativeText("More details can be added here.")
-        msg.setDetailedText("Detailed information if needed.")
+        # msg.setInformativeText("More details can be added here.")
+        # msg.setDetailedText("Detailed information if needed.")
 
         result = msg.exec_() # Show the popup and get the user's choice
 
-        if msg.clickedButton() == clear_button:
-            print("User clicked OK")
-        elif result == QMessageBox.Cancel:
-            print("User clicked Cancel")
+        if result == QMessageBox.Ok:
+            self.clear_clipboard_history()
     
     # returns a button that is ready to be added to the sidebar
     # params: text (the label for the button)
@@ -484,10 +478,11 @@ class ClipboardManager(QMainWindow):
         except Exception as e:
             print(f"Error saving clipboard data: {e}")
 
+    # clears clipboard history
     def clear_clipboard_history(self):
         self.clipboard_items.clear()  # Clear the internal list
 
-        # Remove all widgets from the GUI layout
+        # Remove all widgets from the UI layout
         while self.items_layout.count() > 1:
             item = self.items_layout.takeAt(0)
             if item.widget():
