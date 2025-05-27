@@ -1,3 +1,6 @@
+'''A simple clipboard monitor that logs changes to the clipboard content with timestamps'''
+
+
 import pyperclip
 import time
 import datetime
