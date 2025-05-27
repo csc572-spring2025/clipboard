@@ -20,7 +20,7 @@ Install dependencies with:
 
 Open application using
 
- ```python backgroundapp.py```
+ ```python main.py```
 
 ### Contributing to ClipBoard
 
