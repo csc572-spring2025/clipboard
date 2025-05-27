@@ -79,24 +79,24 @@ class ClipboardManager(QMainWindow):
         
         # Create filter buttons
         self.all_btn = self.ui_components.create_sidebar_button("All", "≡")
-        self.code_btn = self.ui_components.create_sidebar_button("Code", "⌨")
-        self.latex_btn = self.ui_components.create_sidebar_button("LaTeX", "𝐄")
-        self.quotes_btn = self.ui_components.create_sidebar_button("Quotes", "❝")
+        self.code_math_btn = self.ui_components.create_sidebar_button("Code and Math", "⌨")
+        self.url_btn = self.ui_components.create_sidebar_button("URL", "🔗")
         self.plaintext_btn = self.ui_components.create_sidebar_button("Plaintext", "≡")
+        self.misc_btn = self.ui_components.create_sidebar_button("Miscellaneous", "📄")
         
         # Connect filter buttons
         self.all_btn.clicked.connect(lambda: self.filter_items("All"))
-        self.code_btn.clicked.connect(lambda: self.filter_items("Code"))
-        self.latex_btn.clicked.connect(lambda: self.filter_items("LaTeX"))
-        self.quotes_btn.clicked.connect(lambda: self.filter_items("Quotes"))
+        self.code_math_btn.clicked.connect(lambda: self.filter_items("Code and Math"))
+        self.url_btn.clicked.connect(lambda: self.filter_items("URL"))
         self.plaintext_btn.clicked.connect(lambda: self.filter_items("Plaintext"))
+        self.misc_btn.clicked.connect(lambda: self.filter_items("Miscellaneous"))
         
         # Add buttons to sidebar
         sidebar_layout.addWidget(self.all_btn)
-        sidebar_layout.addWidget(self.code_btn)
-        sidebar_layout.addWidget(self.latex_btn)
-        sidebar_layout.addWidget(self.quotes_btn)
+        sidebar_layout.addWidget(self.code_math_btn)
+        sidebar_layout.addWidget(self.url_btn)
         sidebar_layout.addWidget(self.plaintext_btn)
+        sidebar_layout.addWidget(self.misc_btn)
         
         # Clear all button
         clear_btn = QPushButton("Clear All")
