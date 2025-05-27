@@ -28,7 +28,7 @@ class ClipboardManager(QMainWindow):
         
         # Initialize core components
         self.clipboard_items = []
-        self.data_manager = ClipboardDataManager("clipboard_data.json")
+        self.data_manager = ClipboardDataManager("clipboard_data.db")
         self.clipboard_items = self.data_manager.load_clipboard_data()
         
         # Initialize signals and monitoring

@@ -1,4 +1,6 @@
+clipboard_data.db
 clipboard_data.json
+
 venv/*
 env/*
 __pycache__/
