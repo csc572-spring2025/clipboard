@@ -7,20 +7,21 @@ Features:
 - Storing clipboard history
 - Option to clear clipboard history
 '''
-
-import sys
-import os
-import json
-import time
-import threading
+import pandas as pd #line 10 and 11 are libraries imported for the categorization aspect of Clipboard
+import re
+import sys #provides access to system-specific parameters and functions (e.g., command-line args, sys.exit)
+import os #allows interaction with the operating system (e.g., file paths, environment variables)
+import json #for reading and writing JSON data 
+import time #time related functions
+import threading #enables running tasks in parallel using threads (useful for background tasks)
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                             QHBoxLayout, QPushButton, QLabel, QListWidget, 
                             QLineEdit, QTabWidget, QScrollArea, QFrame,
                             QSystemTrayIcon, QMenu, QAction, QMessageBox)
 from PyQt5.QtCore import Qt, QSize, pyqtSignal, QObject
 from PyQt5.QtGui import QIcon, QFont
-import pyperclip
-import datetime
+import pyperclip #cross-platform clipboard module for copying/pasting text
+import datetime #provides date and time
 
 # when emitted, this signal sends a the clipboard item info as a dictionary
 class ClipboardSignals(QObject):
@@ -30,20 +31,21 @@ class ClipboardSignals(QObject):
 class ClipboardManager(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Clipboard")
-        self.setMinimumSize(800, 600)
-        self.setStyleSheet("background-color: #1e1e1e; color: white;")
+        self.setWindowTitle("Clipboard") #set the window title
+        self.setMinimumSize(800, 600) #set the minimum window size
+        self.setStyleSheet("background-color: #1e1e1e; color: white;") #set the main style
         
-        self.clipboard_items = []
+        self.clipboard_items = [] #list to store clipboard history
         self.data_file = "clipboard_data.json" # path to save clipboard data
         self.load_clipboard_data() # load history
         
         self.signals = ClipboardSignals()
         self.signals.new_clipboard_content.connect(self.add_clipboard_item)
         
-        # main page
+        # main page 
         main_widget = QWidget()
-        self.setCentralWidget(main_widget)
+        self.setCentralWidget(main_widget) #set the central widget of the window
+        #create horizontal layout for sidebar and content
         main_layout = QHBoxLayout(main_widget)
         
         # sidebar for filters
@@ -56,30 +58,30 @@ class ClipboardManager(QMainWindow):
         
         # create buttons on the sidebar
         self.all_btn = self.create_sidebar_button("All", "≡")
-        self.code_btn = self.create_sidebar_button("Code", "⌨")
-        self.latex_btn = self.create_sidebar_button("LaTeX", "𝐄")
-        self.quotes_btn = self.create_sidebar_button("Quotes", "❝")
+        self.code_btn = self.create_sidebar_button("Code/Math", "⌨")
+        self.math_btn = self.create_sidebar_button("Code/Math", "*")
+        self.URL_btn = self.create_sidebar_button("URL", "𝐄")
         self.plaintext_btn = self.create_sidebar_button("Plaintext", "≡")
 
         # turns mouse into a pointer
         self.all_btn.setCursor(Qt.PointingHandCursor)
         self.code_btn.setCursor(Qt.PointingHandCursor)
-        self.latex_btn.setCursor(Qt.PointingHandCursor)
-        self.quotes_btn.setCursor(Qt.PointingHandCursor)
+        self.math_btn.setCursor(Qt.PointingHandCursor)
+        self.URL_btn.setCursor(Qt.PointingHandCursor)
         self.plaintext_btn.setCursor(Qt.PointingHandCursor)
         
         # activate filter buttons
         self.all_btn.clicked.connect(lambda: self.filter_items("All"))
-        self.code_btn.clicked.connect(lambda: self.filter_items("Code"))
-        self.latex_btn.clicked.connect(lambda: self.filter_items("LaTeX"))
-        self.quotes_btn.clicked.connect(lambda: self.filter_items("Quotes"))
+        self.code_btn.clicked.connect(lambda: self.filter_items("Code/Math"))
+        self.math_btn.clicked.connect(lambda: self.filter_items("Code/Math"))
+        self.URL_btn.clicked.connect(lambda: self.filter_items("URL"))
         self.plaintext_btn.clicked.connect(lambda: self.filter_items("Plaintext"))
         
         # add buttons to the sidebar
         sidebar_layout.addWidget(self.all_btn)
         sidebar_layout.addWidget(self.code_btn)
-        sidebar_layout.addWidget(self.latex_btn)
-        sidebar_layout.addWidget(self.quotes_btn)
+        sidebar_layout.addWidget(self.math_btn)
+        sidebar_layout.addWidget(self.URL_btn)
         sidebar_layout.addWidget(self.plaintext_btn)
 
         # Clear all button
@@ -238,13 +240,13 @@ class ClipboardManager(QMainWindow):
         # content and copy button
         top_layout = QHBoxLayout()
         
-        # assign icon based on type
+        # assign icon based on type: url, plaintext/miscellaneous, code/math
         icon_label = QLabel()
-        if item["type"] == "Code":
+        if item["type"] == "Code/Math":
             icon_label.setText("⌨")
-        elif item["type"] == "LaTeX":
+        elif item["type"] == "URL":
             icon_label.setText("𝐄")
-        elif item["type"] == "Quotes":
+        elif item["type"] == "Text":
             icon_label.setText("❝")
         else:
             icon_label.setText("≡")
@@ -390,28 +392,55 @@ class ClipboardManager(QMainWindow):
     # categorization logic
     # returns category label
     # params: content (raw text copied to the clipboard)
-    def categorize_content(self, content):
-        # super simple categorization that doesn't really work but can be updated
-        content = content.strip()
-        
-        # Check for code
-        code_indicators = ["def ", "function", "class ", "{", "};", "import ", "from ", "public ", "private ", "#include"]
-        for indicator in code_indicators:
-            if indicator in content:
-                return "Code"
-        
-        # Check for LaTeX
-        latex_indicators = ["\\begin{", "\\end{", "\\frac", "\\sum", "\\int", "\\lim", "\\mathbb"]
-        for indicator in latex_indicators:
-            if indicator in content:
-                return "LaTeX"
-        
-        # Check for quotes
-        if (content.startswith('"') and content.endswith('"')) or (content.startswith("'") and content.endswith("'")):
-            return "Quotes"
-        
-        # Default to plaintext
-        return "Plaintext"
+
+
+# Update this with your actual input/output filenames
+input_csv = "sample_test.csv"
+output_csv = "categorized_output.csv"
+
+# Define your categorization function
+def categorize_text(text):
+    if pd.isna(text):
+        return "Unknown"
+    
+    text = str(text).strip()
+    
+    # Define basic rules for categorization: including Code/Math, URL, Empty, and Text
+    if re.search(r"https?://\S+|www\.\S+", text):
+        return "URL"
+    elif re.search(r"(def |function |public |class |#include|import )", text):
+        return "Code/Math"
+    elif re.search(r"[\d\w\s]*[\^=+\-*/\\]+[\d\w\s]*", text) and not re.search(r"[.!?]$", text):
+        return "Code/Math"
+    elif len(text.split()) < 10 and re.match(r"^['\"].*['\"]$", text.strip()):
+        return "Quote"
+    elif re.match(r"^\s*$", text):
+        return "Empty"
+    else:
+        return "Text"
+
+# Main categorization function
+def categorize_csv(input_csv, output_csv):
+    df = pd.read_csv(input_csv)
+
+    # Automatically use the first column for categorization
+    first_col = df.columns[0]
+
+    # Apply the categorization
+    df['Category'] = df[first_col].apply(categorize_text)
+
+    # Save output
+    df.to_csv(output_csv, index=False)
+    print(f"Categorization done. Output saved to {output_csv}")
+
+# Run the script
+if __name__ == "__main__":
+    categorize_csv(input_csv, output_csv)
+
+    # Run the script
+if __name__ == "__main__":
+    categorize_csv(input_csv, output_csv)
+    
     
     # add new clipboard item to the top of the UI list
     # params: item (clipboard item to be added)
