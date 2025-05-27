@@ -3,3 +3,6 @@ venv/*
 env/*
 __pycache__/
 *.pyc
+clipboard_logs/*
+sample_test.csv
+categorized_output.csv
