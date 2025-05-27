@@ -2,12 +2,13 @@
 import pandas as pd # for reading and writing CSV files
 import re  # for using regular expressions to match patterns in text
 
+import re
+
 
 class ContentCategorizer:
     """
     Handles categorization of clipboard content into different types.
     """
-
     def __init__(self, input_csv, output_csv, column_name=None): #Initialize the categorizer with input/output CSV file paths, and an optional column name to process.
         self.input_csv = input_csv
         self.output_csv = output_csv
