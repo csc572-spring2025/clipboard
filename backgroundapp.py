@@ -62,6 +62,7 @@ class ClipboardManager(QMainWindow):
         self.URL_btn = self.create_sidebar_button("URL", "𝐄")
         self.plaintext_btn = self.create_sidebar_button("Plaintext", "❝") # using a different icon for plaintext
         self.else_btn = self.create_sidebar_button("Else", "≡")
+        #new commit at 11:11 was to match the symbols and names of the buttons to the ones in the sidebar
 
         # turns mouse into a pointer
         self.all_btn.setCursor(Qt.PointingHandCursor)
