@@ -1,0 +1,3 @@
+"""
+Clipboard Manager Application Package
+""" 
