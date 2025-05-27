@@ -16,11 +16,11 @@ Dependencies:
 
 Install dependencies with:
 
-### ```pip install -r requirements.txt``` or ```pip3 install -r requirements.txt```
+ ```pip install -r requirements.txt``` or ```pip3 install -r requirements.txt```
 
 Open application using
 
-### ```python backgroundapp.py```
+ ```python backgroundapp.py```
 
 ### Contributing to ClipBoard
 
