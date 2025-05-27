@@ -1,23 +1,23 @@
 [
   {
-    "type": "Plaintext",
-    "content": "Users can also navigate through each ClipBoard category through labeled tabs on the ",
-    "time": "11:58 AM",
-    "timestamp": "2025-05-26T11:58:09.309799",
-    "chars": "84 characters"
+    "type": "Miscellaneous",
+    "content": "\"Miscellaneous\"",
+    "time": "11:14 AM",
+    "timestamp": "2025-05-27T11:14:53.253435",
+    "chars": "15 characters"
   },
   {
     "type": "Plaintext",
-    "content": "E = mc²",
-    "time": "11:56 AM",
-    "timestamp": "2025-05-26T11:56:37.412972",
-    "chars": "7 characters"
+    "content": "t (sentences ending with punctuation or l",
+    "time": "11:13 AM",
+    "timestamp": "2025-05-27T11:13:20.101889",
+    "chars": "41 characters"
   },
   {
-    "type": "Code",
-    "content": "def foo(bar):\n    return bar",
-    "time": "11:56 AM",
-    "timestamp": "2025-05-26T11:56:23.586084",
-    "chars": "28 characters"
+    "type": "Plaintext",
+    "content": "h: Detects code keywords and mathem",
+    "time": "11:13 AM",
+    "timestamp": "2025-05-27T11:13:06.478185",
+    "chars": "35 characters"
   }
 ]

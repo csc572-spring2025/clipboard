@@ -2,6 +2,8 @@
 Content categorization utilities for clipboard items.
 """
 
+import re
+
 
 class ContentCategorizer:
     """
@@ -11,38 +13,38 @@ class ContentCategorizer:
     @staticmethod
     def categorize_content(content):
         """
-        Categorizes content based on patterns and indicators.
+        Categorizes content based on regex patterns and indicators.
         
         Args:
             content (str): The clipboard content to categorize
             
         Returns:
-            str: The category label ('Code', 'LaTeX', 'Quotes', or 'Plaintext')
+            str: The category label ('Code and Math', 'URL', 'Plaintext', or 'Miscellaneous')
         """
-        content = content.strip()
+        if not content or content is None:
+            return "Miscellaneous"
         
-        # Check for code
-        code_indicators = [
-            "def ", "function", "class ", "{", "};", "import ", 
-            "from ", "public ", "private ", "#include"
-        ]
-        for indicator in code_indicators:
-            if indicator in content:
-                return "Code"
+        content = str(content).strip()
         
-        # Check for LaTeX
-        latex_indicators = [
-            "\\begin{", "\\end{", "\\frac", "\\sum", 
-            "\\int", "\\lim", "\\mathbb"
-        ]
-        for indicator in latex_indicators:
-            if indicator in content:
-                return "LaTeX"
+        # Check for empty content
+        if re.match(r"^\s*$", content):
+            return "Miscellaneous"
         
-        # Check for quotes
-        if ((content.startswith('"') and content.endswith('"')) or 
-            (content.startswith("'") and content.endswith("'"))):
-            return "Quotes"
+        # Check for URLs
+        if re.search(r"https?://\S+|www\.\S+", content):
+            return "URL"
         
-        # Default to plaintext
-        return "Plaintext" 
+        # Check for code patterns
+        if re.search(r"(def |function |public |class |#include|import )", content):
+            return "Code and Math"
+        
+        # Check for math/code expressions (mathematical operators without sentence endings)
+        if re.search(r"[\d\w\s]*[\^=+\-*/\\]+[\d\w\s]*", content) and not re.search(r"[.!?]$", content):
+            return "Code and Math"
+        
+        # Check if it's regular text (contains common sentence patterns)
+        if re.search(r"[.!?]$", content) or len(content.split()) > 3:
+            return "Plaintext"
+        
+        # Default to miscellaneous for everything else
+        return "Miscellaneous" 
