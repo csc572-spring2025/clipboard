@@ -58,31 +58,31 @@ class ClipboardManager(QMainWindow):
         
         # create buttons on the sidebar
         self.all_btn = self.create_sidebar_button("All", "≡")
-        self.code_btn = self.create_sidebar_button("Code/Math", "⌨")
-        self.math_btn = self.create_sidebar_button("Code/Math", "*")
+        self.codeandmath_btn = self.create_sidebar_button("Code/Math", "⌨")
         self.URL_btn = self.create_sidebar_button("URL", "𝐄")
-        self.plaintext_btn = self.create_sidebar_button("Plaintext", "≡")
+        self.plaintext_btn = self.create_sidebar_button("Plaintext", "❝") # using a different icon for plaintext
+        self.else_btn = self.create_sidebar_button("Else", "≡")
 
         # turns mouse into a pointer
         self.all_btn.setCursor(Qt.PointingHandCursor)
-        self.code_btn.setCursor(Qt.PointingHandCursor)
-        self.math_btn.setCursor(Qt.PointingHandCursor)
+        self.codeandmath_btn.setCursor(Qt.PointingHandCursor)
         self.URL_btn.setCursor(Qt.PointingHandCursor)
         self.plaintext_btn.setCursor(Qt.PointingHandCursor)
+        self.else_btn.setCursor(Qt.PointingHandCursor)
         
         # activate filter buttons
         self.all_btn.clicked.connect(lambda: self.filter_items("All"))
-        self.code_btn.clicked.connect(lambda: self.filter_items("Code/Math"))
-        self.math_btn.clicked.connect(lambda: self.filter_items("Code/Math"))
+        self.codeandmath_btn.clicked.connect(lambda: self.filter_items("Code/Math"))
         self.URL_btn.clicked.connect(lambda: self.filter_items("URL"))
         self.plaintext_btn.clicked.connect(lambda: self.filter_items("Plaintext"))
+        self.else_btn.clicked.connect(lambda: self.filter_items("Else"))
         
         # add buttons to the sidebar
         sidebar_layout.addWidget(self.all_btn)
-        sidebar_layout.addWidget(self.code_btn)
-        sidebar_layout.addWidget(self.math_btn)
+        sidebar_layout.addWidget(self.codeandmath_btn)
         sidebar_layout.addWidget(self.URL_btn)
         sidebar_layout.addWidget(self.plaintext_btn)
+        sidebar_layout.addWidget(self.else_btn)
 
         # Clear all button
         clear_btn = QPushButton("Clear All")
@@ -240,13 +240,13 @@ class ClipboardManager(QMainWindow):
         # content and copy button
         top_layout = QHBoxLayout()
         
-        # assign icon based on type: url, plaintext/miscellaneous, code/math
+        # assign icon based on type: url, plaintext, code/math, else
         icon_label = QLabel()
         if item["type"] == "Code/Math":
             icon_label.setText("⌨")
         elif item["type"] == "URL":
             icon_label.setText("𝐄")
-        elif item["type"] == "Text":
+        elif item["type"] == "Plaintext":
             icon_label.setText("❝")
         else:
             icon_label.setText("≡")
