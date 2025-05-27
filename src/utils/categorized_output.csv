@@ -1,0 +1,24 @@
+"The sun sets in the west, casting golden hues across the sky.",category
+Technology continues to evolve at an unprecedented pace.,Plaintext
+She walked into the room with a sense of quiet determination.,Plaintext
+"The forest was silent, save for the rustling of leaves underfoot.",Plaintext
+"def greet(name):
+    return f""Hello, {name}!""",Code/Math
+"for i in range(5):
+    print(i ** 2)",Code/Math
+"if x > 0:
+    print(""Positive"")
+else:
+    print(""Non-positive"")",Code/Math
+"numbers = [1, 2, 3, 4]
+squared = [n**2 for n in numbers]",Code/Math
+E = mc^2,Code/Math
+∫_0^∞ e^(-x^2) dx = √π / 2,Code/Math
+f(x) = lim_{h→0} (f(x+h) - f(x))/h,Code/Math
+a^2 + b^2 = c^2,Code/Math
+"""The only true wisdom is in knowing you know nothing."" – Socrates",Plaintext
+"""Imagination is more important than knowledge."" – Albert Einstein",Plaintext
+"""In the middle of difficulty lies opportunity."" – Albert Einstein",Plaintext
+"""Not all those who wander are lost."" – J.R.R. Tolkien",Plaintext
+https://www.youtube.com,URL
+https://www.zara.com,URL
