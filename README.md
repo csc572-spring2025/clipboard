@@ -22,6 +22,8 @@ Open application using
 
  ```python main.py```
 
+Read REFACTORING_README.md for a comprehensive walkthrough of the repository and report on the refactoring process. Reorganized on May 27, 2025.
+
 ### Contributing to ClipBoard
 
 You can start editing the ClipBoard by modifying backgroundapp.py. In order to view your changes, you must close and reopen the Python application ClipBoard is running on.

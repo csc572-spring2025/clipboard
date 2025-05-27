@@ -1,3 +1,5 @@
+### Important Note: This is a legacy file.
+
 # Clipboard Project Task List
 
 Depends on desired type of artifact (could be either a chrome extension or an local app)
